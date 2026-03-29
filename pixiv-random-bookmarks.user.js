@@ -2,7 +2,7 @@
 // @name        Pixiv Random Bookmark
 // @namespace   https://github.com/gcrtnst
 // @description Opens a random illustration from your bookmarks.
-// @version     0.1.1
+// @version     0.1.2
 // @author      gcrtnst
 // @license     Unlicense
 // @homepageURL https://github.com/gcrtnst/gm-pixiv-random-bookmarks
@@ -17,7 +17,7 @@
   async function main() {
     try {
       const userIdRes = await fetch("https://www.pixiv.net/bookmark.php");
-      const userId = userIdRes.headers.get("x-user-id");
+      const userId = userIdRes.headers.get("x-user-id") || userIdRes.headers.get("x-userid");
       if (!userId) {
         alert("Failed to retrieve User ID. Please ensure you are logged in.");
         return;
