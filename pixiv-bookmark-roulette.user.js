@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name        Pixiv Random Bookmark
+// @name        Pixiv Bookmark Roulette
 // @namespace   https://github.com/gcrtnst
 // @description Opens a random illustration from your bookmarks.
 // @version     0.1.2
 // @author      gcrtnst
 // @license     Unlicense
-// @homepageURL https://github.com/gcrtnst/gm-pixiv-random-bookmarks
+// @homepageURL https://github.com/gcrtnst/gm-pixiv-bookmark-roulette
 // @match       https://www.pixiv.net/*
 // @noframes
 // @grant       GM_registerMenuCommand
@@ -61,5 +61,5 @@
     return await res.json();
   }
 
-  GM_registerMenuCommand("Open Random Bookmark", main);
+  GM_registerMenuCommand("🎲 Open Random Bookmark", main);
 })();
