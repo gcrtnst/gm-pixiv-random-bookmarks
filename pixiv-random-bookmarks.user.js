@@ -2,7 +2,7 @@
 // @name        Pixiv Random Bookmark
 // @namespace   https://github.com/gcrtnst
 // @description Opens a random illustration from your bookmarks.
-// @version     0.1.1
+// @version     0.1.2
 // @author      gcrtnst
 // @license     Unlicense
 // @homepageURL https://github.com/gcrtnst/gm-pixiv-random-bookmarks
