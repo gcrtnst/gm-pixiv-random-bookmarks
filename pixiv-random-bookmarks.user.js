@@ -45,12 +45,7 @@
         targetIndexInSet = targetIndex - totalShow;
       }
 
-      const targetPageData = await fetchBookmarkData(
-        userId,
-        targetRest,
-        targetIndexInSet,
-        1,
-      );
+      const targetPageData = await fetchBookmarkData(userId, targetRest, targetIndexInSet, 1);
       const selectedWork = targetPageData.body.works[0];
       location.href = `https://www.pixiv.net/artworks/${selectedWork.id}`;
     } catch (error) {
