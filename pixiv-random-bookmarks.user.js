@@ -17,7 +17,7 @@
   async function main() {
     try {
       const userIdRes = await fetch("https://www.pixiv.net/bookmark.php");
-      const userId = userIdRes.headers.get("x-user-id");
+      const userId = userIdRes.headers.get("x-user-id") || userIdRes.headers.get("x-userid");
       if (!userId) {
         alert("Failed to retrieve User ID. Please ensure you are logged in.");
         return;
