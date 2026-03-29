@@ -1,14 +1,16 @@
 // ==UserScript==
-// @name        Pixiv Bookmark Roulette
-// @namespace   https://github.com/gcrtnst
-// @description Opens a random illustration from your bookmarks.
-// @version     0.1.2
-// @author      gcrtnst
-// @license     Unlicense
-// @homepageURL https://github.com/gcrtnst/gm-pixiv-bookmark-roulette
-// @match       https://www.pixiv.net/*
+// @name           Pixiv Bookmark Roulette
+// @name:ja        Pixiv ブックマークガチャ
+// @description    Opens a random illustration from your bookmarks.
+// @description:ja ブックマークしたイラスト作品の中からランダムに1つ選んで表示します。
+// @namespace      https://github.com/gcrtnst
+// @version        0.1.2
+// @author         gcrtnst
+// @license        Unlicense
+// @homepageURL    https://github.com/gcrtnst/gm-pixiv-bookmark-roulette
+// @match          https://www.pixiv.net/*
 // @noframes
-// @grant       GM_registerMenuCommand
+// @grant          GM_registerMenuCommand
 // ==/UserScript==
 
 (function () {
@@ -61,5 +63,12 @@
     return await res.json();
   }
 
-  GM_registerMenuCommand("🎲 Open Random Bookmark", main);
+  function register() {
+    const menuText = navigator.language.startsWith("ja")
+      ? "🎲 ブックマークからランダムに開く"
+      : "🎲 Open Random Bookmark";
+    GM_registerMenuCommand(menuText, main);
+  }
+
+  register()
 })();
