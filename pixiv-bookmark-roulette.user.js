@@ -4,7 +4,7 @@
 // @description    Opens a random illustration from your bookmarks.
 // @description:ja ブックマークしたイラスト作品の中からランダムに1つ選んで表示します。
 // @namespace      https://github.com/gcrtnst
-// @version        0.2.0
+// @version        0.2.1
 // @author         gcrtnst
 // @license        Unlicense
 // @homepageURL    https://github.com/gcrtnst/gm-pixiv-bookmark-roulette
@@ -38,17 +38,24 @@
         return;
       }
 
-      const targetIndex = Math.floor(Math.random() * total);
+      let selectedWork = null;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        const targetIndex = Math.floor(Math.random() * total);
 
-      let targetRest = "show";
-      let targetIndexInSet = targetIndex;
-      if (targetIndex >= totalShow) {
-        targetRest = "hide";
-        targetIndexInSet = targetIndex - totalShow;
+        let targetRest = "show";
+        let targetIndexInSet = targetIndex;
+        if (targetIndex >= totalShow) {
+          targetRest = "hide";
+          targetIndexInSet = targetIndex - totalShow;
+        }
+
+        const targetPageData = await fetchBookmarkData(userId, targetRest, targetIndexInSet, 1);
+        selectedWork = targetPageData.body.works[0];
+        if (!selectedWork.isMasked) {
+          break;
+        }
       }
 
-      const targetPageData = await fetchBookmarkData(userId, targetRest, targetIndexInSet, 1);
-      const selectedWork = targetPageData.body.works[0];
       location.href = `https://www.pixiv.net/artworks/${selectedWork.id}`;
     } catch (error) {
       console.error(error);
@@ -64,11 +71,9 @@
   }
 
   function register() {
-    const menuText = navigator.language.startsWith("ja")
-      ? "ブックマークからランダムに開く"
-      : "Open Random Bookmark";
+    const menuText = navigator.language.startsWith("ja") ? "ブックマークからランダムに開く" : "Open Random Bookmark";
     GM_registerMenuCommand(menuText, main);
   }
 
-  register()
+  register();
 })();
