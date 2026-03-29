@@ -1,0 +1,69 @@
+// ==UserScript==
+// @name        Pixiv Random Bookmark
+// @namespace   https://github.com/gcrtnst
+// @description Opens a random illustration from your bookmarks.
+// @version     0.1.0
+// @author      gcrtnst
+// @match       https://www.pixiv.net/*
+// @noframes
+// @grant       GM_registerMenuCommand
+// @grant       GM_xmlhttpRequest
+// ==/UserScript==
+
+(function () {
+  "use strict";
+
+  async function main() {
+    try {
+      const userIdResp = await fetch("https://www.pixiv.net/bookmark.php");
+      const userId = userIdResp.headers.get("x-user-id");
+      if (!userId) {
+        alert("Failed to retrieve User ID. Please ensure you are logged in.");
+        return;
+      }
+
+      const [showData, hideData] = await Promise.all([
+        fetchBookmarkData(userId, "show", 0, 1),
+        fetchBookmarkData(userId, "hide", 0, 1),
+      ]);
+      const totalShow = showData.body.total || 0;
+      const totalHide = hideData.body.total || 0;
+      const total = totalShow + totalHide;
+
+      if (total === 0) {
+        alert("No bookmarks found.");
+        return;
+      }
+
+      const targetIndex = Math.floor(Math.random() * total);
+
+      let targetRest = "show";
+      let targetIndexInSet = targetIndex;
+      if (targetIndex >= totalShow) {
+        targetRest = "hide";
+        targetIndexInSet = targetIndex - totalShow;
+      }
+
+      const targetPageData = await fetchBookmarkData(
+        userId,
+        targetRest,
+        targetIndexInSet,
+        1,
+      );
+      const selectedWork = targetPageData.body.works[0];
+      location.href = `https://www.pixiv.net/artworks/${selectedWork.id}`;
+    } catch (error) {
+      console.error(error);
+      alert("An unexpected exception occurred.");
+    }
+  }
+
+  async function fetchBookmarkData(userId, rest, offset, limit) {
+    const url = `https://www.pixiv.net/ajax/user/${userId}/illusts/bookmarks?tag=&offset=${offset}&limit=${limit}&rest=${rest}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`"GET ${url}" failed (${res.status})`);
+    return await res.json();
+  }
+
+  GM_registerMenuCommand("Open Random Bookmark", main);
+})();
