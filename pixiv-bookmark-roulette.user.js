@@ -65,8 +65,8 @@
 
   function register() {
     const menuText = navigator.language.startsWith("ja")
-      ? "🎲 ブックマークからランダムに開く"
-      : "🎲 Open Random Bookmark";
+      ? "ブックマークからランダムに開く"
+      : "Open Random Bookmark";
     GM_registerMenuCommand(menuText, main);
   }
 
