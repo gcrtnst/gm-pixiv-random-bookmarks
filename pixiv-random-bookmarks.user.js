@@ -9,7 +9,6 @@
 // @match       https://www.pixiv.net/*
 // @noframes
 // @grant       GM_registerMenuCommand
-// @grant       GM_xmlhttpRequest
 // ==/UserScript==
 
 (function () {
